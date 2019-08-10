@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++11 -O3 -O3 -DNDEBUG  -rdynamic CMakeFiles/pose_graph_g2o_lie.dir/pose_graph_g2o_lie_algebra.cpp.o  -o pose_graph_g2o_lie -Wl,-rpath,/usr/local/lib:/home/sqg/code/Sophus/build -lg2o_core -lg2o_stuff -lcholmod -lamd -lcolamd -lcamd -lccolamd /usr/local/lib/libmetis.so -lsuitesparseconfig /home/sqg/code/Sophus/build/libSophus.so 
