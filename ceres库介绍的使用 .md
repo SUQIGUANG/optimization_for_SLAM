@@ -1,0 +1,955 @@
+内容大部分来自ceres[官网](http://ceres-solver.org/nnls_tutorial.html)
+
+------
+
+[TOC]
+
+
+
+## 1. 非线性最小二乘
+
+### 1.1 介绍
+
+Ceres可以解决形式的边界受约束的非线性最小二乘问题：
+$$
+\begin{array}{ll}{\min _{\mathbf{x}}} & {\frac{1}{2} \sum_{i} \rho_{i}\left(\left\|f_{i}\left(x_{i_{1}}, \ldots, x_{i_{k}}\right)\right\|^{2}\right)} \\ {\text { s.t. }} & {l_{j} \leq x_{j} \leq u_{j}}\end{array}
+$$
+这种形式的问题在科学和工程领域广泛应用 ：从统计学中的拟合曲线到从计算机视觉中的照片构建3D模型。在本节中，我们将学习如何解决使用Ceres Solver。
+
+表达式$ \rho_{i}\left(\left\|f_{i}\left(x_{i_{1}}, \ldots, x_{i_{k}}\right)\right\|^{2}\right) $被称为`  ResidualBlock`，其中$ f_{i}(\cdot) $是一个`CostFunction`，它取决于参数块$\left[x_{i_{1}}, \dots, x_{i_{k}}\right]$。在大多数优化问题中，一组标量一起出现。例如，平移向量的三个分量和四元数的四个分量定义摄像机的姿势。我们将这样一组小标量称为`ParameterBlock`。当然，`ParameterBlock`可以只是一个参数。$l_{j}$和$u_{j}$是参数块$x_{j}​$的边界。
+
+$\rho_{i}$是一个`LossFunction`。`LossFunction`是一个标量函数(即我们通常所说的核函数——见slam14讲)，用于减少异常值对非线性最小二乘问题解的影响。作为一种特殊情况，当$\rho_{i}(x)=x$，即同一性函数，并且$l_{j}=-\infty$和$u_{j}=-\infty$时，我们得到更熟悉的非线性最小二乘问题。
+$$
+\frac{1}{2} \sum_{i}\left\|f_{i}\left(x_{i_{1}}, \ldots, x_{i_{k}}\right)\right\|^{2}
+$$
+
+### 1.2 Hello World!
+
+最开始，先考虑找到函数最小值的问题：
+$$
+\frac{1}{2}(10-x)^{2}
+$$
+这是一个很简单的问题，其最小值位于$x=10$，它可以比较直观的用ceres进行求解。
+
+第一步是编写一个仿函数（functor），对函数$f(x)=10-x$设为初始残差：
+
+```c++
+struct CostFunctor {
+   template <typename T>
+   bool operator()(const T* const x, T* residual) const {
+     residual[0] = T(10.0) - x[0];
+     return true;
+   }
+};
+```
+
+这里需要注意的重要一点是`operator（）`是一个模板化方法，它假定它的所有输入和输出都是某种类型`T`。这里使用模板允许Ceres调用`CostFunctor :: operator <T>（）`，当需要残差值时，`T = double`，当需要雅可比行列时，使用特殊类型`T = Jet`。在 Derivatives章节中，我们将更详细地讨论向Ceres供应派生的各种方法。一旦我们有了计算残差函数的方法，就可以用它来构造一个非线性最小二乘问题并让Ceres解决它。
+
+```c++
+int main(int argc, char** argv) {
+  google::InitGoogleLogging(argv[0]);
+
+  // The variable to solve for with its initial value.
+  double initial_x = 5.0;
+  double x = initial_x;
+
+  // Build the problem.
+  Problem problem;
+
+  // Set up the only cost function (also known as residual). This uses
+  // auto-differentiation to obtain the derivative (jacobian).
+  CostFunction* cost_function =
+      new AutoDiffCostFunction<CostFunctor, 1, 1>(new CostFunctor);
+  problem.AddResidualBlock(cost_function, NULL, &x);
+
+  // Run the solver!
+  Solver::Options options;
+  options.linear_solver_type = ceres::DENSE_QR;
+  options.minimizer_progress_to_stdout = true;
+  Solver::Summary summary;
+  Solve(options, &problem, &summary);
+
+  std::cout << summary.BriefReport() << "\n";
+  std::cout << "x : " << initial_x
+            << " -> " << x << "\n";
+  return 0;
+}
+```
+
+`AutoDiffCostFunction`将`CostFunctor`作为输入，自动区分它并为其提供`CostFunction`接口。编译和运行该函数得到以下结果：
+
+```
+iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
+   0  4.512500e+01    0.00e+00    9.50e+00   0.00e+00   0.00e+00  1.00e+04       0    5.33e-04    3.46e-03
+   1  4.511598e-07    4.51e+01    9.50e-04   9.50e+00   1.00e+00  3.00e+04       1    5.00e-04    4.05e-03
+   2  5.012552e-16    4.51e-07    3.17e-08   9.50e-04   1.00e+00  9.00e+04       1    1.60e-05    4.09e-03
+Ceres Solver Report: Iterations: 2, Initial cost: 4.512500e+01, Final cost: 5.012552e-16, Termination: CONVERGENCE
+x : 0.5 -> 10
+```
+
+从$x=5$开始，两次迭代中的求解器变为10。细心的读者会注意到这是一个线性问题，一个线性求解应该足以得到最优值。求解器的默认配置针对非线性问题，为简单起见，我们在此示例中未对其进行更改。确实可以在一次迭代中使用Ceres获得该问题的解决方案。还要注意，求解器在第一次迭代中确实得到误差接近0的最佳函数值。当我们讨论Ceres的收敛和参数设置时，我们将更详细地讨论这些问题。
+
+### 1.3 衍生
+
+像大多数优化包一样，Ceres Solver依赖于在任意参数值下评估目标函数中每个项的值和导数。正确有效地这样做对于获得好结果至关重要。Ceres Solver提供了许多方法。我们现在考虑另外两种可能性：解析解和数值解。
+
+### 1.4 数值解
+
+在某些情况下，无法定义模板`cost functor`，例如，当残差的评估涉及对您无法控制的库函数的调用时。在这种情况下，可以使用数值微分。用户定义了一个算子，它计算残差值并使用它构造`NumericDiffCostFunction`。例如，对于$f(x)=10-x ​$，相应的仿函数将是
+
+```c++
+struct NumericDiffCostFunctor {
+  bool operator()(const double* const x, double* residual) const {
+    residual[0] = 10.0 - x[0];
+    return true;
+  }
+};
+```
+
+将其添加到`Problem`中：
+
+```c++
+CostFunction* cost_function =
+  new NumericDiffCostFunction<NumericDiffCostFunctor, ceres::CENTRAL, 1, 1>(new NumericDiffCostFunctor);
+problem.AddResidualBlock(cost_function, NULL, &x);
+```
+
+注意与我们使用`AutoDiffCostFunction`时的差异：
+
+```c++
+CostFunction* cost_function =
+    new AutoDiffCostFunction<CostFunctor, 1, 1>(new CostFunctor);
+problem.AddResidualBlock(cost_function, NULL, &x);
+```
+
+除了额外的模板参数指示用于计算数值导数的有限差分方案的类型外，该构造看起来几乎与用`AutoDiffCostFunction`的构造相同。
+
+一般来说，我们建议用`AutoDiffCostFunction`而不是`NumericDiffCostFunction`。C ++模板的使用使`AutoDiffCostFunction`很高效，而`NumericDiffCostFunction`很费时，而且容易出现数值错误，并导致收敛速度变慢。
+
+### 1.5 解析解
+
+在某些情况下，使用`AutoDiffCostFunction`是不可行的。例如，解析解计算封闭形式导数比依赖于自动微分代码计算的更有效。在这种情况下，可以提供自己的残差和雅可比计算代码。为此，如果在编译时知道参数和残差的大小，请定义`CostFunction`或`SizedCostFunction`的子类。例如，下面是实现$ f(x)=10-x $的`SimpleCostFunction`。
+
+```c++
+class QuadraticCostFunction : public ceres::SizedCostFunction<1, 1> {
+ public:
+  virtual ~QuadraticCostFunction() {}
+  virtual bool Evaluate(double const* const* parameters,
+                        double* residuals,
+                        double** jacobians) const {
+    const double x = parameters[0][0];
+    residuals[0] = 10 - x;
+
+    // Compute the Jacobian if asked for.
+    if (jacobians != NULL && jacobians[0] != NULL) {
+      jacobians[0][0] = -1;
+    }
+    return true;
+  }
+};
+```
+
+`QuadraticCostFunction :: Evaluate`提供了输入数组`parameters`，输出数组`residuals`和`jacobians``。jacobians`数组是可选的，`Evaluate`应该检查它何时为非null，如果为null，则用剩余函数的导数值填充它。在这种情况下，由于残余函数是线性的，雅可比矩阵是常数。从上面的代码片段可以看出，实现`CostFunction`对象有点冗长。我们建议除非您有充分的理由自己管理雅可比计算，否则使用`AutoDiffCostFunction`或`NumericDiffCostFunction`来构造残差块。
+
+计算数值解和解析解是迄今为止使用Ceres最复杂的部分，并且根据环境，用户可能需要更复杂的计算方法。一旦熟悉使用`NumericDiffCostFunction`和`AutoDiffCostFunction`，就可以继续查看`DynamicAutoDiffCostFunction`，`CostFunctionToFunctor`，`NumericDiffFunctor`和`ConditionedCostFunction`，以获得构建和计算成本函数的更高级方法。
+
+### 1.6 Powell’s Function
+
+现在考虑一个稍微复杂的例子 ： Powell’s Function的最小化。设$x=\left[x_{1}, x_{2}, x_{3}, x_{4}\right]$和
+$$
+\begin{array}{l}{f_{1}(x)=x_{1}+10 x_{2}} \\ {f_{2}(x)=\sqrt{5}\left(x_{3}-x_{4}\right)} \\ {f_{3}(x)=\left(x_{2}-2 x_{3}\right)^{2}} \\ {f_{4}(x)=\sqrt{10}\left(x_{1}-x_{4}\right)^{2}} \\ {F(x)=\left[f_{1}(x), f_{2}(x), f_{3}(x), f_{4}(x)\right]}\end{array}
+$$
+$F(x)$是有四个参数的函数，有四个残差，我们希望找到$x$，使得$\frac{1}{2}\|F(x)\|^{2}$最小化。
+
+同样，第一步是定义用于仿函数。以下是评估$f_{4}\left(x_{1}, x_{4}\right)​$的代码：
+
+```c++
+struct F4 {
+  template <typename T>
+  bool operator()(const T* const x1, const T* const x4, T* residual) const {
+    residual[0] = T(sqrt(10.0)) * (x1[0] - x4[0]) * (x1[0] - x4[0]);
+    return true;
+  }
+};
+```
+
+类似地，我们可以定义类`F1`，`F2`和`F3`来分别评估$ f_1(x1，x2)$，$ f_2(x3，x4)$和$ f_3(x2，x3)$ 。这样，问题可以构建如下：
+
+```c++
+double x1 =  3.0; double x2 = -1.0; double x3 =  0.0; double x4 = 1.0;
+
+Problem problem;
+
+// Add residual terms to the problem using the using the autodiff
+// wrapper to get the derivatives automatically.
+problem.AddResidualBlock(
+  new AutoDiffCostFunction<F1, 1, 1, 1>(new F1), NULL, &x1, &x2);
+problem.AddResidualBlock(
+  new AutoDiffCostFunction<F2, 1, 1, 1>(new F2), NULL, &x3, &x4);
+problem.AddResidualBlock(
+  new AutoDiffCostFunction<F3, 1, 1, 1>(new F3), NULL, &x2, &x3)
+problem.AddResidualBlock(
+  new AutoDiffCostFunction<F4, 1, 1, 1>(new F4), NULL, &x1, &x4);
+```
+
+请注意，每个`ResidualBlock`仅取决于相应残留对象所依赖的两个参数，而不取决于所有四个参数。编译和运行程序后得到：
+
+```
+Initial x1 = 3, x2 = -1, x3 = 0, x4 = 1
+iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
+   0  1.075000e+02    0.00e+00    1.55e+02   0.00e+00   0.00e+00  1.00e+04       0    4.95e-04    2.30e-03
+   1  5.036190e+00    1.02e+02    2.00e+01   2.16e+00   9.53e-01  3.00e+04       1    4.39e-05    2.40e-03
+   2  3.148168e-01    4.72e+00    2.50e+00   6.23e-01   9.37e-01  9.00e+04       1    9.06e-06    2.43e-03
+   ………………省略部分
+  11  4.584044e-12    6.88e-11    1.86e-08   1.20e-03   9.37e-01  1.77e+09       1    6.91e-06    2.65e-03
+  12  2.865573e-13    4.30e-12    2.33e-09   6.02e-04   9.37e-01  5.31e+09       1    5.96e-06    2.67e-03
+  13  1.791438e-14    2.69e-13    2.91e-10   3.01e-04   9.37e-01  1.59e+10       1    7.15e-06    2.69e-03
+
+Ceres Solver v1.12.0 Solve Report
+----------------------------------
+                                     Original                  Reduced
+Parameter blocks                            4                        4
+Parameters                                  4                        4
+Residual blocks                             4                        4
+Residual                                    4                        4
+
+Minimizer                        TRUST_REGION
+
+Dense linear algebra library            EIGEN
+Trust region strategy     LEVENBERG_MARQUARDT
+
+                                        Given                     Used
+Linear solver                        DENSE_QR                 DENSE_QR
+Threads                                     1                        1
+Linear solver threads                       1                        1
+
+Cost:
+Initial                          1.075000e+02
+Final                            1.791438e-14
+Change                           1.075000e+02
+
+Minimizer iterations                       14
+Successful steps                           14
+Unsuccessful steps                          0
+
+Time (in seconds):
+Preprocessor                            0.002
+
+  Residual evaluation                   0.000
+  Jacobian evaluation                   0.000
+  Linear solver                         0.000
+Minimizer                               0.001
+
+Postprocessor                           0.000
+Total                                   0.005
+
+Termination:  CONVERGENCE (Gradient tolerance reached. Gradient max norm: 3.642190e-11 <= 1.000000e-10)
+
+Final x1 = 0.000292189, x2 = -2.92189e-05, x3 = 4.79511e-05, x4 = 4.79511e-05
+```
+
+很容易看出这个问题的最优解是$x_1 = 0，x_2 = 0，x_3 = 0，x_4 = 0$，目标函数值为0。在10次迭代中，Ceres找到了一个目标函数值为$4×10^{-12}​$的解。
+
+上述问题所有代码如下：
+
+```c++
+// Author: sameeragarwal@google.com (Sameer Agarwal)
+//
+// An example program that minimizes Powell's singular function.
+//
+//   F = 1/2 (f1^2 + f2^2 + f3^2 + f4^2)
+//
+//   f1 = x1 + 10*x2;
+//   f2 = sqrt(5) * (x3 - x4)
+//   f3 = (x2 - 2*x3)^2
+//   f4 = sqrt(10) * (x1 - x4)^2
+//
+// The starting values are x1 = 3, x2 = -1, x3 = 0, x4 = 1.
+// The minimum is 0 at (x1, x2, x3, x4) = 0.
+//
+// From: Testing Unconstrained Optimization Software by Jorge J. More, Burton S.
+// Garbow and Kenneth E. Hillstrom in ACM Transactions on Mathematical Software,
+// Vol 7(1), March 1981.
+#include <vector>
+#include "ceres/ceres.h"
+#include "gflags/gflags.h"
+#include "glog/logging.h"
+using ceres::AutoDiffCostFunction;
+using ceres::CostFunction;
+using ceres::Problem;
+using ceres::Solver;
+using ceres::Solve;
+struct F1 {
+  template <typename T> bool operator()(const T* const x1,
+                                        const T* const x2,
+                                        T* residual) const {
+    // f1 = x1 + 10 * x2;
+    residual[0] = x1[0] + 10.0 * x2[0];
+    return true;
+  }
+};
+struct F2 {
+  template <typename T> bool operator()(const T* const x3,
+                                        const T* const x4,
+                                        T* residual) const {
+    // f2 = sqrt(5) (x3 - x4)
+    residual[0] = sqrt(5.0) * (x3[0] - x4[0]);
+    return true;
+  }
+};
+struct F3 {
+  template <typename T> bool operator()(const T* const x2,
+                                        const T* const x3,
+                                        T* residual) const {
+    // f3 = (x2 - 2 x3)^2
+    residual[0] = (x2[0] - 2.0 * x3[0]) * (x2[0] - 2.0 * x3[0]);
+    return true;
+  }
+};
+struct F4 {
+  template <typename T> bool operator()(const T* const x1,
+                                        const T* const x4,
+                                        T* residual) const {
+    // f4 = sqrt(10) (x1 - x4)^2
+    residual[0] = sqrt(10.0) * (x1[0] - x4[0]) * (x1[0] - x4[0]);
+    return true;
+  }
+};
+DEFINE_string(minimizer, "trust_region",
+              "Minimizer type to use, choices are: line_search & trust_region");
+int main(int argc, char** argv) {
+  CERES_GFLAGS_NAMESPACE::ParseCommandLineFlags(&argc, &argv, true);
+  google::InitGoogleLogging(argv[0]);
+  double x1 =  3.0;
+  double x2 = -1.0;
+  double x3 =  0.0;
+  double x4 =  1.0;
+  Problem problem;
+  // Add residual terms to the problem using the using the autodiff
+  // wrapper to get the derivatives automatically. The parameters, x1 through
+  // x4, are modified in place.
+  problem.AddResidualBlock(new AutoDiffCostFunction<F1, 1, 1, 1>(new F1),
+                           NULL,
+                           &x1, &x2);
+  problem.AddResidualBlock(new AutoDiffCostFunction<F2, 1, 1, 1>(new F2),
+                           NULL,
+                           &x3, &x4);
+  problem.AddResidualBlock(new AutoDiffCostFunction<F3, 1, 1, 1>(new F3),
+                           NULL,
+                           &x2, &x3);
+  problem.AddResidualBlock(new AutoDiffCostFunction<F4, 1, 1, 1>(new F4),
+                           NULL,
+                           &x1, &x4);
+  Solver::Options options;
+  LOG_IF(FATAL, !ceres::StringToMinimizerType(FLAGS_minimizer,
+                                              &options.minimizer_type))
+      << "Invalid minimizer: " << FLAGS_minimizer
+      << ", valid options are: trust_region and line_search.";
+  options.max_num_iterations = 100;
+  options.linear_solver_type = ceres::DENSE_QR;
+  options.minimizer_progress_to_stdout = true;
+  std::cout << "Initial x1 = " << x1
+            << ", x2 = " << x2
+            << ", x3 = " << x3
+            << ", x4 = " << x4
+            << "\n";
+  // Run the solver!
+  Solver::Summary summary;
+  Solve(options, &problem, &summary);
+  std::cout << summary.FullReport() << "\n";
+  std::cout << "Final x1 = " << x1
+            << ", x2 = " << x2
+            << ", x3 = " << x3
+            << ", x4 = " << x4
+            << "\n";
+  return 0;
+}
+```
+
+### 1.7 曲线拟合
+
+我们到目前为止看到的例子是没有数据的简单优化问题。最小二乘和非线性最小二乘分析的最初目的是拟合数据曲线。我们现在考虑这样一个问题，它对曲线$y=e^{0.3 x+0.1}$进行采样并添加标准偏差$σ=0.2​$的高斯噪声而生成的数据。让我们将一些数据拟合到曲线中
+$$
+y=e^{m x+c}
+$$
+我们首先定义一个模板化对象来评估残差。每次观察都会有残差。
+
+```c++
+struct ExponentialResidual {
+  ExponentialResidual(double x, double y)
+      : x_(x), y_(y) {}
+
+  template <typename T>
+  bool operator()(const T* const m, const T* const c, T* residual) const {
+    residual[0] = T(y_) - exp(m[0] * T(x_) + c[0]);
+    return true;
+  }
+
+ private:
+  // Observations for a sample.
+  const double x_;
+  const double y_;
+};
+```
+
+假设观察结果是一个称为`data`的$2n​$大小的数组，该问题的构造是为每个观察创建一个`CostFunction`的简单问题。
+
+```c++
+double m = 0.0;
+double c = 0.0;
+
+Problem problem;
+for (int i = 0; i < kNumObservations; ++i) {
+  CostFunction* cost_function =
+       new AutoDiffCostFunction<ExponentialResidual, 1, 1, 1>(
+           new ExponentialResidual(data[2 * i], data[2 * i + 1]));
+  problem.AddResidualBlock(cost_function, NULL, &m, &c);
+}
+```
+
+编译运行得到：
+
+```
+iter      cost      cost_change  |gradient|   |step|    tr_ratio  tr_radius  ls_iter  iter_time  total_time
+   0  1.211734e+02    0.00e+00    3.61e+02   0.00e+00   0.00e+00  1.00e+04       0    5.34e-04    2.56e-03
+   1  1.211734e+02   -2.21e+03    0.00e+00   7.52e-01  -1.87e+01  5.00e+03       1    4.29e-05    3.25e-03
+   2  1.211734e+02   -2.21e+03    0.00e+00   7.51e-01  -1.86e+01  1.25e+03       1    1.10e-05    3.28e-03
+  …………省略
+  12  1.056795e+00    6.47e-03    1.18e-01   1.47e-02   1.00e+00  6.67e+02       1    2.10e-05    3.64e-03
+  13  1.056751e+00    4.39e-05    3.79e-03   1.28e-03   1.00e+00  2.00e+03       1    2.10e-05    3.68e-03
+Ceres Solver Report: Iterations: 13, Initial cost: 1.211734e+02, Final cost: 1.056751e+00, Termination: CONVERGENCE
+Initial m: 0 c: 0
+Final   m: 0.291861 c: 0.131439
+```
+
+从参数值$m = 0，c = 0$开始，初始目标函数值为$121.173121.173$ 。Ceres找到一个解$m = 0.291861，c = 0.131439$，此时目标函数值$1.056751.05675$。这些值与原始模型$m = 0.3，c = 0.1$的参数略有不同，但误差并不大，是符合预期的。当从噪声数据重建曲线时，我们期望看到这种偏差。实际上，如果你要评估$m = 0.3，c = 0.1$的目标函数，其实拟合值更差，目标函数值为1.0824251.082425。下图说明了拟合度：
+
+![_images/least_squares_fit.png](http://ceres-solver.org/_images/least_squares_fit.png)
+
+下面为曲线拟合的完整代码
+
+```c++
+#include "ceres/ceres.h"
+#include "glog/logging.h"
+using ceres::AutoDiffCostFunction;
+using ceres::CostFunction;
+using ceres::Problem;
+using ceres::Solver;
+using ceres::Solve;
+// Data generated using the following octave code.
+//   randn('seed', 23497);
+//   m = 0.3;
+//   c = 0.1;
+//   x=[0:0.075:5];
+//   y = exp(m * x + c);
+//   noise = randn(size(x)) * 0.2;
+//   y_observed = y + noise;
+//   data = [x', y_observed'];
+const int kNumObservations = 67;
+const double data[] = {
+  0.000000e+00, 1.133898e+00,
+  7.500000e-02, 1.334902e+00,
+  1.500000e-01, 1.213546e+00,
+  2.250000e-01, 1.252016e+00,
+  3.000000e-01, 1.392265e+00,
+  3.750000e-01, 1.314458e+00,
+  4.500000e-01, 1.472541e+00,
+  5.250000e-01, 1.536218e+00,
+  6.000000e-01, 1.355679e+00,
+  6.750000e-01, 1.463566e+00,
+  7.500000e-01, 1.490201e+00,
+  8.250000e-01, 1.658699e+00,
+  9.000000e-01, 1.067574e+00,
+  9.750000e-01, 1.464629e+00,
+  1.050000e+00, 1.402653e+00,
+  1.125000e+00, 1.713141e+00,
+  1.200000e+00, 1.527021e+00,
+  1.275000e+00, 1.702632e+00,
+  1.350000e+00, 1.423899e+00,
+  1.425000e+00, 1.543078e+00,
+  1.500000e+00, 1.664015e+00,
+  1.575000e+00, 1.732484e+00,
+  1.650000e+00, 1.543296e+00,
+  1.725000e+00, 1.959523e+00,
+  1.800000e+00, 1.685132e+00,
+  1.875000e+00, 1.951791e+00,
+  1.950000e+00, 2.095346e+00,
+  2.025000e+00, 2.361460e+00,
+  2.100000e+00, 2.169119e+00,
+  2.175000e+00, 2.061745e+00,
+  2.250000e+00, 2.178641e+00,
+  2.325000e+00, 2.104346e+00,
+  2.400000e+00, 2.584470e+00,
+  2.475000e+00, 1.914158e+00,
+  2.550000e+00, 2.368375e+00,
+  2.625000e+00, 2.686125e+00,
+  2.700000e+00, 2.712395e+00,
+  2.775000e+00, 2.499511e+00,
+  2.850000e+00, 2.558897e+00,
+  2.925000e+00, 2.309154e+00,
+  3.000000e+00, 2.869503e+00,
+  3.075000e+00, 3.116645e+00,
+  3.150000e+00, 3.094907e+00,
+  3.225000e+00, 2.471759e+00,
+  3.300000e+00, 3.017131e+00,
+  3.375000e+00, 3.232381e+00,
+  3.450000e+00, 2.944596e+00,
+  3.525000e+00, 3.385343e+00,
+  3.600000e+00, 3.199826e+00,
+  3.675000e+00, 3.423039e+00,
+  3.750000e+00, 3.621552e+00,
+  3.825000e+00, 3.559255e+00,
+  3.900000e+00, 3.530713e+00,
+  3.975000e+00, 3.561766e+00,
+  4.050000e+00, 3.544574e+00,
+  4.125000e+00, 3.867945e+00,
+  4.200000e+00, 4.049776e+00,
+  4.275000e+00, 3.885601e+00,
+  4.350000e+00, 4.110505e+00,
+  4.425000e+00, 4.345320e+00,
+  4.500000e+00, 4.161241e+00,
+  4.575000e+00, 4.363407e+00,
+  4.650000e+00, 4.161576e+00,
+  4.725000e+00, 4.619728e+00,
+  4.800000e+00, 4.737410e+00,
+  4.875000e+00, 4.727863e+00,
+  4.950000e+00, 4.669206e+00,
+};
+struct ExponentialResidual {
+  ExponentialResidual(double x, double y)
+      : x_(x), y_(y) {}
+  template <typename T> bool operator()(const T* const m,
+                                        const T* const c,
+                                        T* residual) const {
+    residual[0] = y_ - exp(m[0] * x_ + c[0]);
+    return true;
+  }
+ private:
+  const double x_;
+  const double y_;
+};
+int main(int argc, char** argv) {
+  google::InitGoogleLogging(argv[0]);
+  double m = 0.0;
+  double c = 0.0;
+  Problem problem;
+  for (int i = 0; i < kNumObservations; ++i) {
+    problem.AddResidualBlock(
+        new AutoDiffCostFunction<ExponentialResidual, 1, 1, 1>(
+            new ExponentialResidual(data[2 * i], data[2 * i + 1])),
+        NULL,
+        &m, &c);
+  }
+  Solver::Options options;
+  options.max_num_iterations = 25;
+  options.linear_solver_type = ceres::DENSE_QR;
+  options.minimizer_progress_to_stdout = true;
+  Solver::Summary summary;
+  Solve(options, &problem, &summary);
+  std::cout << summary.BriefReport() << "\n";
+  std::cout << "Initial m: " << 0.0 << " c: " << 0.0 << "\n";
+  std::cout << "Final   m: " << m << " c: " << c << "\n";
+  return 0;
+}
+```
+
+### 1.8 鲁棒曲线拟合
+
+现在假设我们给出的数据有一些异常值，即我们有一些不遵守噪声模型的点。如果我们使用上面的代码来拟合这些数据，我们会得到如下所示的拟合。注意拟合曲线如何偏离真实值。
+
+![_images/non_robust_least_squares_fit.png](http://ceres-solver.org/_images/non_robust_least_squares_fit.png)
+
+为了处理异常值，常用方法是使用`LossFunction`。损失函数减少具有高残差的残差块（即异常值）的影响，通常是与异常值相对应的残差。为了将损失函数与残差块相关联，我们把
+
+```c++
+problem.AddResidualBlock(cost_function, NULL , &m, &c);
+```
+
+改为了
+
+```c++
+problem.AddResidualBlock(cost_function, new CauchyLoss(0.5) , &m, &c);
+```
+
+`CauchyLoss`是Ceres Solver附带的损失函数之一。参数$0.5$指定损失函数的比例。结果，我们得到了下面的拟合。注意拟合曲线如何向后靠近真实值曲线移动。
+
+![_images/robust_least_squares_fit.png](http://ceres-solver.org/_images/robust_least_squares_fit.png)
+
+### 1.9 光束平差法
+
+作者写Ceres库的主要原因之一是解决大规模的光束平差问题。
+
+给定一组图像特征的位置和对应关系，光束平差的目标是找到最小化重投影误差的3D点位置和相机参数。该优化问题通常被表述为非线性最小二乘问题，其中误差是观察到的特征位置与相机图像平面上的相应3D点的投影之间的差的平方$L2$范数。Ceres比较好的支持解决光束平差问题。
+
+让我们使用BAL数据集中解决问题。
+
+通常的第一步是定义一个计算重投影误差/残差的模板化仿函数（templated functor）。仿函数的结构类似于`ExponentialResidual`，因为该对象的实例负责每个图像。
+
+BAL问题中的每个残差取决于三维点和有9个参数的相机。定义摄像机的9个参数是：三个用于旋转（作为Rodriques的轴角矢量），三个用于平移，一个用于焦距，两个用于径向畸变。可以在[Bundler主页](http://phototour.cs.washington.edu/bundler/)和[BAL主页](http://grail.cs.washington.edu/projects/bal/)上找到此相机型号的详细信息。
+
+```c++
+struct SnavelyReprojectionError {
+  SnavelyReprojectionError(double observed_x, double observed_y)
+      : observed_x(observed_x), observed_y(observed_y) {}
+
+  template <typename T>
+  bool operator()(const T* const camera,
+                  const T* const point,
+                  T* residuals) const {
+    // camera[0,1,2] are the angle-axis rotation.
+    T p[3];
+    ceres::AngleAxisRotatePoint(camera, point, p);
+    // camera[3,4,5] are the translation.
+    p[0] += camera[3]; p[1] += camera[4]; p[2] += camera[5];
+
+    // Compute the center of distortion. The sign change comes from
+    // the camera model that Noah Snavely's Bundler assumes, whereby
+    // the camera coordinate system has a negative z axis.
+    T xp = - p[0] / p[2];
+    T yp = - p[1] / p[2];
+
+    // Apply second and fourth order radial distortion.
+    const T& l1 = camera[7];
+    const T& l2 = camera[8];
+    T r2 = xp*xp + yp*yp;
+    T distortion = T(1.0) + r2  * (l1 + l2  * r2);
+
+    // Compute final projected point position.
+    const T& focal = camera[6];
+    T predicted_x = focal * distortion * xp;
+    T predicted_y = focal * distortion * yp;
+
+    // The error is the difference between the predicted and observed position.
+    residuals[0] = predicted_x - T(observed_x);
+    residuals[1] = predicted_y - T(observed_y);
+    return true;
+  }
+
+   // Factory to hide the construction of the CostFunction object from
+   // the client code.
+   static ceres::CostFunction* Create(const double observed_x,
+                                      const double observed_y) {
+     return (new ceres::AutoDiffCostFunction<SnavelyReprojectionError, 2, 9, 3>(
+                 new SnavelyReprojectionError(observed_x, observed_y)));
+   }
+
+  double observed_x;
+  double observed_y;
+};
+```
+
+请注意，与之前的示例不同，这是一个不平凡的函数，计算其解析雅可比行列式有点痛苦。自动求导会使程序编写更加简单。函数`AngleAxisRotatePoint（）`和其他用于操作旋转的函数可以在include / ceres / rotation.h中找到。
+
+给定这个仿函数，光束平差问题可以构造如下：
+
+```c++
+ceres::Problem problem;
+for (int i = 0; i < bal_problem.num_observations(); ++i) {
+  ceres::CostFunction* cost_function =
+      SnavelyReprojectionError::Create(
+           bal_problem.observations()[2 * i + 0],
+           bal_problem.observations()[2 * i + 1]);
+  problem.AddResidualBlock(cost_function,
+                           NULL /* squared loss */,
+                           bal_problem.mutable_camera_for_observation(i),
+                           bal_problem.mutable_point_for_observation(i));
+}
+```
+
+请注意，光束平差问题的构造与曲线拟合示例非常相似 ， 每观察一次就把一项误差添加到目标函数中。由于这是一个很大的稀疏问题（对于`DENSE_QR`方法是很大啦），解决这个问题的一种方法是将`Solver :: Options :: linear_solver_type`设置为`SPARSE_NORMAL_CHOLESKY`并调用`Solve（）`。虽然这是一个合理的事情，但是光束平差问题有一个特殊的稀疏结构，可以利用它来更有效地解决它们。Ceres为此任务提供了三种专用求解器（统称为基于Schur的求解器）。示例代码使用最简单的`DENSE_SCHUR`。
+
+```c++
+ceres::Solver::Options options;
+options.linear_solver_type = ceres::DENSE_SCHUR;
+options.minimizer_progress_to_stdout = true;
+ceres::Solver::Summary summary;
+ceres::Solve(options, &problem, &summary);
+std::cout << summary.FullReport() << "\n";
+```
+
+下面代码是一个更复杂的光束平差示例，它演示了如何使用Ceres的更高级功能，包括各种线性求解器，强大的损失函数和本地参数化。
+
+```c++
+// An example of solving a dynamically sized problem with various
+// solvers and loss functions.
+//
+// For a simpler bare bones example of doing bundle adjustment with
+// Ceres, please see simple_bundle_adjuster.cc.
+//
+// NOTE: This example will not compile without gflags and SuiteSparse.
+//
+// The problem being solved here is known as a Bundle Adjustment
+// problem in computer vision. Given a set of 3d points X_1, ..., X_n,
+// a set of cameras P_1, ..., P_m. If the point X_i is visible in
+// image j, then there is a 2D observation u_ij that is the expected
+// projection of X_i using P_j. The aim of this optimization is to
+// find values of X_i and P_j such that the reprojection error
+//
+//    E(X,P) =  sum_ij  |u_ij - P_j X_i|^2
+//
+// is minimized.
+//
+// The problem used here comes from a collection of bundle adjustment
+// problems published at University of Washington.
+// http://grail.cs.washington.edu/projects/bal
+
+#include <algorithm>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+#include <vector>
+#include "bal_problem.h"
+#include "ceres/ceres.h"
+#include "gflags/gflags.h"
+#include "glog/logging.h"
+#include "snavely_reprojection_error.h"
+DEFINE_string(input, "", "Input File name");
+DEFINE_string(trust_region_strategy, "levenberg_marquardt",
+              "Options are: levenberg_marquardt, dogleg.");
+DEFINE_string(dogleg, "traditional_dogleg", "Options are: traditional_dogleg,"
+              "subspace_dogleg.");
+DEFINE_bool(inner_iterations, false, "Use inner iterations to non-linearly "
+            "refine each successful trust region step.");
+DEFINE_string(blocks_for_inner_iterations, "automatic", "Options are: "
+            "automatic, cameras, points, cameras,points, points,cameras");
+DEFINE_string(linear_solver, "sparse_schur", "Options are: "
+              "sparse_schur, dense_schur, iterative_schur, sparse_normal_cholesky, "
+              "dense_qr, dense_normal_cholesky and cgnr.");
+DEFINE_bool(explicit_schur_complement, false, "If using ITERATIVE_SCHUR "
+            "then explicitly compute the Schur complement.");
+DEFINE_string(preconditioner, "jacobi", "Options are: "
+              "identity, jacobi, schur_jacobi, cluster_jacobi, "
+              "cluster_tridiagonal.");
+DEFINE_string(visibility_clustering, "canonical_views",
+              "single_linkage, canonical_views");
+DEFINE_string(sparse_linear_algebra_library, "suite_sparse",
+              "Options are: suite_sparse and cx_sparse.");
+DEFINE_string(dense_linear_algebra_library, "eigen",
+              "Options are: eigen and lapack.");
+DEFINE_string(ordering, "automatic", "Options are: automatic, user.");
+DEFINE_bool(use_quaternions, false, "If true, uses quaternions to represent "
+            "rotations. If false, angle axis is used.");
+DEFINE_bool(use_local_parameterization, false, "For quaternions, use a local "
+            "parameterization.");
+DEFINE_bool(robustify, false, "Use a robust loss function.");
+DEFINE_double(eta, 1e-2, "Default value for eta. Eta determines the "
+             "accuracy of each linear solve of the truncated newton step. "
+             "Changing this parameter can affect solve performance.");
+DEFINE_int32(num_threads, 1, "Number of threads.");
+DEFINE_int32(num_iterations, 5, "Number of iterations.");
+DEFINE_double(max_solver_time, 1e32, "Maximum solve time in seconds.");
+DEFINE_bool(nonmonotonic_steps, false, "Trust region algorithm can use"
+            " nonmonotic steps.");
+DEFINE_double(rotation_sigma, 0.0, "Standard deviation of camera rotation "
+              "perturbation.");
+DEFINE_double(translation_sigma, 0.0, "Standard deviation of the camera "
+              "translation perturbation.");
+DEFINE_double(point_sigma, 0.0, "Standard deviation of the point "
+              "perturbation.");
+DEFINE_int32(random_seed, 38401, "Random seed used to set the state "
+             "of the pseudo random number generator used to generate "
+             "the pertubations.");
+DEFINE_bool(line_search, false, "Use a line search instead of trust region "
+            "algorithm.");
+DEFINE_bool(mixed_precision_solves, false, "Use mixed precision solves.");
+DEFINE_int32(max_num_refinement_iterations, 0, "Iterative refinement iterations");
+DEFINE_string(initial_ply, "", "Export the BAL file data as a PLY file.");
+DEFINE_string(final_ply, "", "Export the refined BAL file data as a PLY "
+              "file.");
+namespace ceres {
+namespace examples {
+namespace {
+void SetLinearSolver(Solver::Options* options) {
+  CHECK(StringToLinearSolverType(FLAGS_linear_solver,
+                                 &options->linear_solver_type));
+  CHECK(StringToPreconditionerType(FLAGS_preconditioner,
+                                   &options->preconditioner_type));
+  CHECK(StringToVisibilityClusteringType(FLAGS_visibility_clustering,
+                                         &options->visibility_clustering_type));
+  CHECK(StringToSparseLinearAlgebraLibraryType(
+            FLAGS_sparse_linear_algebra_library,
+            &options->sparse_linear_algebra_library_type));
+  CHECK(StringToDenseLinearAlgebraLibraryType(
+            FLAGS_dense_linear_algebra_library,
+            &options->dense_linear_algebra_library_type));
+  options->use_explicit_schur_complement = FLAGS_explicit_schur_complement;
+  options->use_mixed_precision_solves = FLAGS_mixed_precision_solves;
+  options->max_num_refinement_iterations = FLAGS_max_num_refinement_iterations;
+}
+void SetOrdering(BALProblem* bal_problem, Solver::Options* options) {
+  const int num_points = bal_problem->num_points();
+  const int point_block_size = bal_problem->point_block_size();
+  double* points = bal_problem->mutable_points();
+  const int num_cameras = bal_problem->num_cameras();
+  const int camera_block_size = bal_problem->camera_block_size();
+  double* cameras = bal_problem->mutable_cameras();
+  if (options->use_inner_iterations) {
+    if (FLAGS_blocks_for_inner_iterations == "cameras") {
+      LOG(INFO) << "Camera blocks for inner iterations";
+      options->inner_iteration_ordering.reset(new ParameterBlockOrdering);
+      for (int i = 0; i < num_cameras; ++i) {
+        options->inner_iteration_ordering->AddElementToGroup(cameras + camera_block_size * i, 0);
+      }
+    } else if (FLAGS_blocks_for_inner_iterations == "points") {
+      LOG(INFO) << "Point blocks for inner iterations";
+      options->inner_iteration_ordering.reset(new ParameterBlockOrdering);
+      for (int i = 0; i < num_points; ++i) {
+        options->inner_iteration_ordering->AddElementToGroup(points + point_block_size * i, 0);
+      }
+    } else if (FLAGS_blocks_for_inner_iterations == "cameras,points") {
+      LOG(INFO) << "Camera followed by point blocks for inner iterations";
+      options->inner_iteration_ordering.reset(new ParameterBlockOrdering);
+      for (int i = 0; i < num_cameras; ++i) {
+        options->inner_iteration_ordering->AddElementToGroup(cameras + camera_block_size * i, 0);
+      }
+      for (int i = 0; i < num_points; ++i) {
+        options->inner_iteration_ordering->AddElementToGroup(points + point_block_size * i, 1);
+      }
+    } else if (FLAGS_blocks_for_inner_iterations == "points,cameras") {
+      LOG(INFO) << "Point followed by camera blocks for inner iterations";
+      options->inner_iteration_ordering.reset(new ParameterBlockOrdering);
+      for (int i = 0; i < num_cameras; ++i) {
+        options->inner_iteration_ordering->AddElementToGroup(cameras + camera_block_size * i, 1);
+      }
+      for (int i = 0; i < num_points; ++i) {
+        options->inner_iteration_ordering->AddElementToGroup(points + point_block_size * i, 0);
+      }
+    } else if (FLAGS_blocks_for_inner_iterations == "automatic") {
+      LOG(INFO) << "Choosing automatic blocks for inner iterations";
+    } else {
+      LOG(FATAL) << "Unknown block type for inner iterations: "
+                 << FLAGS_blocks_for_inner_iterations;
+    }
+  }
+  // Bundle adjustment problems have a sparsity structure that makes
+  // them amenable to more specialized and much more efficient
+  // solution strategies. The SPARSE_SCHUR, DENSE_SCHUR and
+  // ITERATIVE_SCHUR solvers make use of this specialized
+  // structure.
+  //
+  // This can either be done by specifying Options::ordering_type =
+  // ceres::SCHUR, in which case Ceres will automatically determine
+  // the right ParameterBlock ordering, or by manually specifying a
+  // suitable ordering vector and defining
+  // Options::num_eliminate_blocks.
+  if (FLAGS_ordering == "automatic") {
+    return;
+  }
+  ceres::ParameterBlockOrdering* ordering =
+      new ceres::ParameterBlockOrdering;
+  // The points come before the cameras.
+  for (int i = 0; i < num_points; ++i) {
+    ordering->AddElementToGroup(points + point_block_size * i, 0);
+  }
+  for (int i = 0; i < num_cameras; ++i) {
+    // When using axis-angle, there is a single parameter block for
+    // the entire camera.
+    ordering->AddElementToGroup(cameras + camera_block_size * i, 1);
+  }
+  options->linear_solver_ordering.reset(ordering);
+}
+void SetMinimizerOptions(Solver::Options* options) {
+  options->max_num_iterations = FLAGS_num_iterations;
+  options->minimizer_progress_to_stdout = true;
+  options->num_threads = FLAGS_num_threads;
+  options->eta = FLAGS_eta;
+  options->max_solver_time_in_seconds = FLAGS_max_solver_time;
+  options->use_nonmonotonic_steps = FLAGS_nonmonotonic_steps;
+  if (FLAGS_line_search) {
+    options->minimizer_type = ceres::LINE_SEARCH;
+  }
+  CHECK(StringToTrustRegionStrategyType(FLAGS_trust_region_strategy,
+                                        &options->trust_region_strategy_type));
+  CHECK(StringToDoglegType(FLAGS_dogleg, &options->dogleg_type));
+  options->use_inner_iterations = FLAGS_inner_iterations;
+}
+void SetSolverOptionsFromFlags(BALProblem* bal_problem,
+                               Solver::Options* options) {
+  SetMinimizerOptions(options);
+  SetLinearSolver(options);
+  SetOrdering(bal_problem, options);
+}
+void BuildProblem(BALProblem* bal_problem, Problem* problem) {
+  const int point_block_size = bal_problem->point_block_size();
+  const int camera_block_size = bal_problem->camera_block_size();
+  double* points = bal_problem->mutable_points();
+  double* cameras = bal_problem->mutable_cameras();
+  // Observations is 2*num_observations long array observations =
+  // [u_1, u_2, ... , u_n], where each u_i is two dimensional, the x
+  // and y positions of the observation.
+  const double* observations = bal_problem->observations();
+  for (int i = 0; i < bal_problem->num_observations(); ++i) {
+    CostFunction* cost_function;
+    // Each Residual block takes a point and a camera as input and
+    // outputs a 2 dimensional residual.
+    cost_function =
+        (FLAGS_use_quaternions)
+        ? SnavelyReprojectionErrorWithQuaternions::Create(
+            observations[2 * i + 0],
+            observations[2 * i + 1])
+        : SnavelyReprojectionError::Create(
+            observations[2 * i + 0],
+            observations[2 * i + 1]);
+    // If enabled use Huber's loss function.
+    LossFunction* loss_function = FLAGS_robustify ? new HuberLoss(1.0) : NULL;
+    // Each observation correponds to a pair of a camera and a point
+    // which are identified by camera_index()[i] and point_index()[i]
+    // respectively.
+    double* camera =
+        cameras + camera_block_size * bal_problem->camera_index()[i];
+    double* point = points + point_block_size * bal_problem->point_index()[i];
+    problem->AddResidualBlock(cost_function, loss_function, camera, point);
+  }
+  if (FLAGS_use_quaternions && FLAGS_use_local_parameterization) {
+    LocalParameterization* camera_parameterization =
+        new ProductParameterization(
+            new QuaternionParameterization(),
+            new IdentityParameterization(6));
+    for (int i = 0; i < bal_problem->num_cameras(); ++i) {
+      problem->SetParameterization(cameras + camera_block_size * i,
+                                   camera_parameterization);
+    }
+  }
+}
+void SolveProblem(const char* filename) {
+  BALProblem bal_problem(filename, FLAGS_use_quaternions);
+  if (!FLAGS_initial_ply.empty()) {
+    bal_problem.WriteToPLYFile(FLAGS_initial_ply);
+  }
+  Problem problem;
+  srand(FLAGS_random_seed);
+  bal_problem.Normalize();
+  bal_problem.Perturb(FLAGS_rotation_sigma,
+                      FLAGS_translation_sigma,
+                      FLAGS_point_sigma);
+  BuildProblem(&bal_problem, &problem);
+  Solver::Options options;
+  SetSolverOptionsFromFlags(&bal_problem, &options);
+  options.gradient_tolerance = 1e-16;
+  options.function_tolerance = 1e-16;
+  Solver::Summary summary;
+  Solve(options, &problem, &summary);
+  std::cout << summary.FullReport() << "\n";
+  if (!FLAGS_final_ply.empty()) {
+    bal_problem.WriteToPLYFile(FLAGS_final_ply);
+  }
+}
+}  // namespace
+}  // namespace examples
+}  // namespace ceres
+int main(int argc, char** argv) {
+  CERES_GFLAGS_NAMESPACE::ParseCommandLineFlags(&argc, &argv, true);
+  google::InitGoogleLogging(argv[0]);
+  if (FLAGS_input.empty()) {
+    LOG(ERROR) << "Usage: bundle_adjuster --input=bal_problem";
+    return 1;
+  }
+  CHECK(FLAGS_use_quaternions || !FLAGS_use_local_parameterization)
+      << "--use_local_parameterization can only be used with "
+      << "--use_quaternions.";
+  ceres::examples::SolveProblem(FLAGS_input.c_str());
+  return 0;
+}
+```
+

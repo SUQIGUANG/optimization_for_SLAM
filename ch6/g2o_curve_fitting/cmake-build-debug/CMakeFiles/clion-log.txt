@@ -1,4 +1,0 @@
-/home/sqg/下载/clion-2018.3.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/sqg/Vision_Lab/SLAM/slambook_gaoxiang/ch6/g2o_curve_fitting
--- Configuring done
--- Generating done
--- Build files have been written to: /home/sqg/Vision_Lab/SLAM/slambook_gaoxiang/ch6/g2o_curve_fitting/cmake-build-debug

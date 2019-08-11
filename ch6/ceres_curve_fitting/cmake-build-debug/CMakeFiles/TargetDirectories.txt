@@ -1,3 +1,0 @@
-/home/sqg/Vision_Lab/SLAM/slambook_gaoxiang/ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/sqg/Vision_Lab/SLAM/slambook_gaoxiang/ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir
-/home/sqg/Vision_Lab/SLAM/slambook_gaoxiang/ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/edit_cache.dir

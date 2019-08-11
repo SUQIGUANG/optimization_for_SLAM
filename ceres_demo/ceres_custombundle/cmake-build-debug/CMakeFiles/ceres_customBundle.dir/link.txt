@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -O3 -O3 -DNDEBUG  -rdynamic CMakeFiles/ceres_customBundle.dir/ceresBundle.cpp.o  -o ceres_customBundle -Wl,-rpath,/home/sqg/github_projects/optimization_for_SLAM/ceres_demo/ceres_custombundle/cmake-build-debug libBALProblem.so libParseCmd.so /usr/local/lib/libceres.a -lpthread -lglog -llapack -lblas 

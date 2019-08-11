@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/ceres_turtorial.dir/main.cpp.o  -o ceres_turtorial /usr/local/lib/libceres.a -lpthread /usr/lib/x86_64-linux-gnu/libglog.so /usr/lib/liblapack.so /usr/lib/libblas.so 

@@ -1,8 +1,0 @@
-/home/sqg/下载/clion-2018.3.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/sqg/Vision_Lab/SLAM/slambook_gaoxiang/ch10/ceres_custombundle
--- Found installed version of Eigen: /usr/lib/cmake/eigen3
--- Found required Ceres dependency: Eigen version 3.2.92 in /usr/include/eigen3
--- Found required Ceres dependency: glog
--- Found Ceres version: 2.0.0 installed in: /usr/local with components: [EigenSparse, SparseLinearAlgebraLibrary, LAPACK, SchurSpecializations]
--- Configuring done
--- Generating done
--- Build files have been written to: /home/sqg/Vision_Lab/SLAM/slambook_gaoxiang/ch10/ceres_custombundle/cmake-build-debug

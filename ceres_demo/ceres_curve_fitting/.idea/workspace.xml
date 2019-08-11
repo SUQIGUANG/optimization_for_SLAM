@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="ceres_curve_fitting" targetName="curve_fitting" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6c17e077-8937-43f7-b4f0-52cbf90621a2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.idea/ceres_custombundle.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/Readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/SnavelyReprojectionError.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/ceresBundle.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/common/BALProblem.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/BALProblem.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/CMakeError.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/common/flags/command_args.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ParseCmd.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Progress/1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Progress/2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Progress/3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Progress/4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Progress/5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/Progress/count.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/ceres_customBundle.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/feature_tests.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/feature_tests.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/ceres_customBundle.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/libBALProblem.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/cmake-build-debug/libParseCmd.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/BALProblem.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/BALProblem.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/BundleParams.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/flags/command_args.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/flags/command_args.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/projection.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/tools/random.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/common/tools/rotation.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/ceres_custombundle/data/problem-16-22106-pre.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/Readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/autodiff.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/eigen.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/fixed_array.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/fpclassify.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/jet.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/macros.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/manual_constructor.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/ceres/variadic_evaluate.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/cmake_modules/FindBLAS.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/cmake_modules/FindCSparse.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/cmake_modules/FindCholmod.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/cmake_modules/FindEigen3.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/cmake_modules/FindG2O.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/cmake_modules/FindLAPACK.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/BALProblem.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/BALProblem.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/BundleParams.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/flags/command_args.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/flags/command_args.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/projection.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/tools/random.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/common/tools/rotation.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/data/problem-16-22106-pre.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/final.ply" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/g2o_bal_class.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/g2o_bundle.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch10/g2o_custombundle/initial.ply" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/.idea/ch11.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/CMakeError.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/Progress/5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/Progress/count.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/feature_tests.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/feature_tests.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/pose_graph_g2o_SE3.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_SE3.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_g2o_lie.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/pose_graph_gtsam.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/pose_graph.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake-build-debug/pose_graph_g2o_SE3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake_modules/FindCholmod.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/cmake_modules/FindG2O.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/pose_graph_g2o_SE3.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/pose_graph_g2o_lie_algebra.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/pose_graph_gtsam.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/result.g2o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/result_gtsam.g2o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/result_lie.g2o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch11/sphere.g2o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/.idea/ceres_curve_fitting.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/CMakeError.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/main.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/feature_tests.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/feature_tests.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/ceres_curve_fitting.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake-build-debug/curve_fitting" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/cmake_modules/CeresConfig.cmake.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/ceres_curve_fitting/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/.idea/g2o_curve_fitting.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/main.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/curve_fitting.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/feature_tests.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/feature_tests.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/curve_fitting" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake-build-debug/g2o_curve_fitting.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/cmake_modules/FindG2O.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ch6/g2o_curve_fitting/main.cpp" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="12" selection-start-line="12" selection-end-line="13" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="293">
+              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#273#285#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+      </list>
+    </option>
+  </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
+  <component name="ProjectFrameBounds" extendedState="4">
+    <option name="x" value="75" />
+    <option name="y" value="24" />
+    <option name="width" value="1558" />
+    <option name="height" value="1416" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ba_demo_ceres" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="curve_fitting" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ceres_curve_fitting" TARGET_NAME="curve_fitting" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ceres_curve_fitting" RUN_TARGET_NAME="curve_fitting">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6c17e077-8937-43f7-b4f0-52cbf90621a2" name="Default Changelist" comment="" />
+      <created>1555338442035</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1555338442035</updated>
+      <workItem from="1555338443289" duration="602000" />
+      <workItem from="1555379324822" duration="246000" />
+      <workItem from="1560774252574" duration="1761000" />
+      <workItem from="1565418865595" duration="967000" />
+      <workItem from="1565438159565" duration="45000" />
+      <workItem from="1565438294574" duration="2242000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="5863000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="75" y="24" width="1558" height="1416" extended-state="4" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.17857143" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.28804347" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.32996893" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.45186335" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1787165" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.97670805" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="CMake" order="11" weight="0.32996893" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.45186335" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file:///opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/core.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="2889" column="38" lean-forward="true" selection-start-line="2889" selection-start-column="38" selection-end-line="2889" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/ceres/problem.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="66" column="33" selection-start-line="66" selection-start-column="33" selection-end-line="66" selection-end-column="33" />
+          <folding>
+            <element signature="e#9523#9539#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/ceres/solver.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5916">
+          <caret line="74" column="42" selection-start-line="74" selection-start-column="42" selection-end-line="74" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/ceres/types.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="12" selection-start-line="12" selection-end-line="13" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#273#285#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
