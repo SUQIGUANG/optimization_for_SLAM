@@ -9,12 +9,12 @@ using namespace std;
 // 第一部分：使用仿函数（functor）构建代价函数的计算模型
 struct CURVE_FITTING_COST
 {
-    CURVE_FITTING_COST ( double x, double y ) : _x ( x ), _y ( y ) {}
+    CURVE_FITTING_COST ( double x, double y ) : _x ( x ), _y ( y ) {}    // CURVE_FITTING_COST结构体的声明
     // 残差的计算
     template <typename T>
     bool operator() (
-        const T* const abc,     // 模型参数，有3维
-        T* residual ) const     // 残差
+                     const T* const abc,     // 模型参数，有3维
+                     T* residual ) const     // 残差
     {
         residual[0] = T ( _y ) - ceres::exp ( abc[0]*T (_x) *T (_x) + abc[1]*T (_x) + abc[2]); // y-exp(ax^2+bx+c)，即残差
         return true;
@@ -40,13 +40,13 @@ int main ( int argc, char** argv )
     int N=100;                          // 产生若干个数据点
     double w_sigma=1.0;                 // 噪声Sigma（标准差）值（零均值高斯噪声）
     cv::RNG rng;                        // OpenCV随机数产生器
-    double abc[3] = {0,0,0};            // abc参数的估计值
+    double abc[3] = {0,0,0};            // abc参数的初始估计值
 
     vector<double> x_data, y_data;      // 数据
 
     cout<<"generating data: "<<endl;
 
-    // x从0到1迭代，均匀间隔，100次；输出相应的y值
+    // x从0到1迭代，均匀间隔，100次；输出相应的x，y值
     for ( int i=0; i<N; i++ )
     {
         double x = i/100.0;
@@ -65,7 +65,7 @@ int main ( int argc, char** argv )
 
         problem.AddResidualBlock
         (
-            // 构建代价方程：使用自动求导，模板参数：误差类型，输出维度，输入维度，维数要与前面struct中一致
+            // 构建代价方程（CostFunction）：使用自动求导，模板参数：误差类型，输出维度，输入维度，维数要与前面struct中一致
             new ceres::AutoDiffCostFunction<CURVE_FITTING_COST, 1, 3> (new CURVE_FITTING_COST( x_data[i], y_data[i] )),
             nullptr,            // 核函数，这里不使用，为空
             abc                 // 待估计参数
@@ -86,7 +86,7 @@ int main ( int argc, char** argv )
     cout<<"solve time cost = "<<time_used.count()<<" seconds. "<<endl;
 
     // 输出结果
-    cout<<summary.BriefReport() <<endl;
+    cout<<summary.FullReport() <<endl;
     cout<<"estimated a,b,c = ";
     for ( auto a:abc ) cout<<a<<" ";
     cout<<endl;

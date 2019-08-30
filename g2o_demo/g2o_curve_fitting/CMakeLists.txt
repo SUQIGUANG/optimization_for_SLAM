@@ -1,7 +1,8 @@
 cmake_minimum_required( VERSION 2.8 )
 project( g2o_curve_fitting )
 
-set( CMAKE_BUILD_TYPE "Release" )
+# 注意：CMAKE_BUILD_TYPE为调试模式，如果是release则无法单步调试
+set( CMAKE_BUILD_TYPE "Debug" )
 set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
 
 # 添加cmake模块以使用ceres库

@@ -1,4 +1,4 @@
-# Install script for directory: /home/sqg/github_projects/optimization_for_SLAM/ceres_turtorial
+# Install script for directory: /home/sqg/github_projects/optimization_for_SLAM/ceres_demo/ceres_turtorial
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/sqg/github_projects/optimization_for_SLAM/ceres_turtorial/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/sqg/github_projects/optimization_for_SLAM/ceres_demo/ceres_turtorial/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

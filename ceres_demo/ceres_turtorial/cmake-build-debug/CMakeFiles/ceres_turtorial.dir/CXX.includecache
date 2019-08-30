@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/sqg/github_projects/optimization_for_SLAM/ceres_turtorial/main.cpp
+/home/sqg/github_projects/optimization_for_SLAM/ceres_demo/ceres_turtorial/main.cpp
 iostream
 -
 ceres/ceres.h

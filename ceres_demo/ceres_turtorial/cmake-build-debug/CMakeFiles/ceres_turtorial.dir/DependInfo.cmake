@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/sqg/github_projects/optimization_for_SLAM/ceres_turtorial/main.cpp" "/home/sqg/github_projects/optimization_for_SLAM/ceres_turtorial/cmake-build-debug/CMakeFiles/ceres_turtorial.dir/main.cpp.o"
+  "/home/sqg/github_projects/optimization_for_SLAM/ceres_demo/ceres_turtorial/main.cpp" "/home/sqg/github_projects/optimization_for_SLAM/ceres_demo/ceres_turtorial/cmake-build-debug/CMakeFiles/ceres_turtorial.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

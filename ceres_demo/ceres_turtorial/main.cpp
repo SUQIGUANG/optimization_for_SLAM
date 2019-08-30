@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     google::InitGoogleLogging(argv[0]);
 
     //寻优参数x的初始值，为5
-    double initial_x = 5.0;
+    double initial_x = 1000000.0;
     double x = initial_x;
 
 
@@ -33,6 +33,7 @@ int main(int argc, char** argv) {
     Problem problem;
     //使用自动求导，将之前的代价函数结构体传入，第一个1是输出维度，即残差的维度，第二个1是输入维度，即待寻优参数x的维度。
     CostFunction* cost_function = new AutoDiffCostFunction<CostFunctor, 1, 1>(new CostFunctor);
+
     //向问题中添加误差项，本问题比较简单，添加一个就行。这里的参数NULL是指不使用核函数，&x表示x是待寻优参数。
     problem.AddResidualBlock(cost_function,NULL,&x);
 
@@ -42,12 +43,14 @@ int main(int argc, char** argv) {
     //配置增量方程的解法,有DENSE_QR、DENSE_NORMAL_CHOLESKY、DENSE_SCHUR、DENSE_SVD等方法可以选择
     options.linear_solver_type = ceres::DENSE_QR;
     options.minimizer_progress_to_stdout = true;    // 输出到cout
+
     Solver::Summary summary;    // 输出优化信息
     Solve(options, &problem, &summary);    // 进行求解
 
     cout<<summary.BriefReport()<<"\n";    // 输出优化的简要信息
+    cout<<summary.FullReport()<<"\n";     // 输出优化的详细信息
 
-    cout<<"x: "<<initial_x<<"->"<<x<<"\n";
+    cout<<"初始值x= "<<initial_x<<"\n"<<"优化后值x= "<<x<<"\n";
 
     return 0;
 }

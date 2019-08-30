@@ -17,18 +17,18 @@ class CurveFittingVertex: public g2o::BaseVertex<3, Eigen::Vector3d>
 {
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-    virtual void setToOriginImpl() // 重置
+    void setToOriginImpl() override // 重置
     {
         _estimate << 0,0,0;
     }
     
-    virtual void oplusImpl( const double* update ) // 更新
+    void oplusImpl( const double* update ) override // 更新
     {
         _estimate += Eigen::Vector3d(update);
     }
     // 存盘和读盘：留空
-    virtual bool read( istream& in ) {}
-    virtual bool write( ostream& out ) const {}
+    bool read( istream& in ) override {}
+    bool write( ostream& out ) const override {}
 };
 
 // 误差模型 模板参数：观测值维度，类型，连接顶点类型
@@ -36,16 +36,16 @@ class CurveFittingEdge: public g2o::BaseUnaryEdge<1,double,CurveFittingVertex>
 {
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-    CurveFittingEdge( double x ): BaseUnaryEdge(), _x(x) {}
+    explicit CurveFittingEdge( double x ): BaseUnaryEdge(), _x(x) {}
     // 计算曲线模型误差
-    void computeError()
+    void computeError() override
     {
-        const CurveFittingVertex* v = static_cast<const CurveFittingVertex*> (_vertices[0]);
-        const Eigen::Vector3d abc = v->estimate();
+        const auto* v = dynamic_cast<const CurveFittingVertex*> (_vertices[0]);
+        const Eigen::Vector3d& abc = v->estimate();
         _error(0,0) = _measurement - std::exp( abc(0,0)*_x*_x + abc(1,0)*_x + abc(2,0) ) ;
     }
-    virtual bool read( istream& in ) {}
-    virtual bool write( ostream& out ) const {}
+    bool read( istream& in ) override {}
+    bool write( ostream& out ) const override {}
 public:
     double _x;  // x 值， y 值为 _measurement
 };
@@ -83,7 +83,7 @@ int main( int argc, char** argv )
 
     // 梯度下降方法，从GN, LM, DogLeg 中选
     // g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg( solver_ptr );
-    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg ( std::move(solver_ptr));
+    auto* solver = new g2o::OptimizationAlgorithmLevenberg ( std::move(solver_ptr));
 
     // g2o::OptimizationAlgorithmGaussNewton* solver = new g2o::OptimizationAlgorithmGaussNewton( solver_ptr );
     // g2o::OptimizationAlgorithmDogleg* solver = new g2o::OptimizationAlgorithmDogleg( solver_ptr );
@@ -92,7 +92,7 @@ int main( int argc, char** argv )
     optimizer.setVerbose( true );       // 打开调试输出
     
     // 往图中增加顶点
-    CurveFittingVertex* v = new CurveFittingVertex();
+    auto* v = new CurveFittingVertex();
     v->setEstimate( Eigen::Vector3d(0,0,0) );
     v->setId(0);
     optimizer.addVertex( v );
@@ -100,7 +100,7 @@ int main( int argc, char** argv )
     // 往图中增加边
     for ( int i=0; i<N; i++ )
     {
-        CurveFittingEdge* edge = new CurveFittingEdge( x_data[i] );
+        auto* edge = new CurveFittingEdge( x_data[i] );
         edge->setId(i);
         edge->setVertex( 0, v );                // 设置连接的顶点
         edge->setMeasurement( y_data[i] );      // 观测数值
